@@ -3,7 +3,7 @@
 function! neomake#makers#ft#d#EnabledMakers() abort
     " dmd, ldmd, and gdmd all share a common CLI.
     " Ordered in efficiency of compiler
-    for m in ['dmd', 'ldmd', 'gdmd']
+    for m in ['dmd', 'ldmd', 'gdmd', 'dscanner']
         if executable(m)
             return [m]
         endif
@@ -89,4 +89,45 @@ function! neomake#makers#ft#d#gdmd() abort
             \ '%f:%l: %tarning: %m,'.
             \ '%f:%l: %m',
         \ }
+endfunction
+
+function! s:DScannerIssueToItem(i) abort
+    if a:i.type ==# 'warn'
+        let type = 'W'
+    else
+        let type='E'
+    endif
+    let item = {
+                \ 'filename': a:i['fileName'],
+                \ 'lnum': a:i['line'],
+                \ 'col': a:i['column'],
+                \ 'text': a:i['message'],
+                \ 'type': type,
+                \ 'code': a:i['key'],
+                \ }
+    let end_lnum = a:i['endLine']
+    if end_lnum is g:neomake#compat#json_null
+        let item.end_lnum = end_lnum
+    endif
+    let end_col = a:i['endColumn']
+    if end_col is g:neomake#compat#json_null
+        let item.end_col = end_col
+    endif
+
+    return item
+endfunction
+
+function! s:DScannerProcessJson(context) abort
+    let issues=get(a:context.json, 'issues', [])
+    return map(issues, 's:DScannerIssueToItem')
+endfunction
+
+function! neomake#makers#ft#d#dscanner() abort
+    return {
+          \ 'exe': 'dscanner',
+          \ 'args': ['--report', 'source/'],
+          \ 'process_json': function('s:DScannerProcessJson'),
+          \ 'supports_stdin': 0,
+          \ 'name': 'D-scanner'
+          \ }
 endfunction
