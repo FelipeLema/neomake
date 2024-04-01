@@ -124,10 +124,8 @@ endfunction
 
 function! neomake#makers#ft#d#dscanner() abort
     return {
-          \ 'exe': 'dscanner',
           \ 'args': ['--report', 'source/'],
           \ 'process_json': function('s:DScannerProcessJson'),
           \ 'supports_stdin': 0,
-          \ 'name': 'D-scanner'
           \ }
 endfunction
