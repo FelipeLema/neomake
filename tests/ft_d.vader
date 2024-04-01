@@ -3,12 +3,14 @@ Include: include/setup.vader
 Execute (d: dscanner):
   new
   file source/app.d
+
   let dscanner_maker = NeomakeTestsGetMakerWithOutput(neomake#makers#ft#d#dscanner(),
-      \ '../tests/fixtures/d/dscanner_report.json')
+      \ 'tests/fixtures/d/dscanner_report.json')
   CallNeomake 1, [dscanner_maker]
+
   AssertEqualQf getloclist(0), [{
-  \ 'lnum':6, 'bufnr': bufnr('%'), 'col': 12,
-  \ 'type': 'W', 'pattern': '',
+  \ 'lnum':6, 'bufnr': bufnr('%'), 'col': 12, 'filename': 'source/app.d', 
+  \ 'vcol': 0, 'code': 'dscanner.suspicious.unmodified', 'nr': -1, 'type': 'W', 
   \ 'text': 'Variable context is never modified and could have been declared const or immutable.',
   \ }]
 
