@@ -91,35 +91,35 @@ function! neomake#makers#ft#d#gdmd() abort
         \ }
 endfunction
 
-function! s:DScannerIssueToItem(i) abort
-    if a:i.type ==# 'warn'
-        let type = 'W'
-    else
-        let type='E'
-    endif
-    let item = {
-                \ 'filename': a:i['fileName'],
-                \ 'lnum': a:i['line'],
-                \ 'col': a:i['column'],
-                \ 'text': a:i['message'],
-                \ 'type': type,
-                \ 'code': a:i['key'],
-                \ }
-    let end_lnum = a:i['endLine']
-    if end_lnum is g:neomake#compat#json_null
-        let item.end_lnum = end_lnum
-    endif
-    let end_col = a:i['endColumn']
-    if end_col is g:neomake#compat#json_null
-        let item.end_col = end_col
-    endif
-
-    return item
-endfunction
-
 function! s:DScannerProcessJson(context) abort
-    let issues=get(a:context.json, 'issues', [])
-    return map(issues, 's:DScannerIssueToItem')
+    let entries = []
+    for i in get(a:context.json, 'issues', [])
+        if i.type ==# 'warn'
+            let type = 'W'
+        else
+            let type='E'
+        endif
+        let entry = {
+                    \ 'filename': i['fileName'],
+                    \ 'lnum': i['line'],
+                    \ 'col': i['column'],
+                    \ 'text': i['message'],
+                    \ 'type': type,
+                    \ 'code': i['key'],
+                    \ }
+        let end_lnum = i['endLine']
+        if end_lnum is g:neomake#compat#json_null
+            let entry.end_lnum = end_lnum
+        endif
+        let end_col = i['endColumn']
+        if end_col is g:neomake#compat#json_null
+            let entry.end_col = end_col
+        endif
+
+        call add(entries, entry)
+    endfor
+    return entries
+
 endfunction
 
 function! neomake#makers#ft#d#dscanner() abort
