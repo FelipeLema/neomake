@@ -111,7 +111,7 @@ function! s:DScannerProcessJson(context) abort
             let entry.end_lnum = i['endLine']
         else
             " fallback, though unexpected
-            let entry.end_lnum = i['line'] 
+            let entry.end_lnum = i['line']
         endif
 
         if has_key(i, 'endColumn')
