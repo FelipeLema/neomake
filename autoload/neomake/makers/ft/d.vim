@@ -109,10 +109,16 @@ function! s:DScannerProcessJson(context) abort
                     \ }
         if has_key(i, 'endLine')
             let entry.end_lnum = i['endLine']
+        else
+            " fallback, though unexpected
+            let entry.end_lnum = i['line'] 
         endif
 
         if has_key(i, 'endColumn')
             let entry.end_col = i['endColumn']
+        else
+            " fallback, though unexpected
+            let entry.end_col = i['column']
         endif
 
         call add(entries, entry)
