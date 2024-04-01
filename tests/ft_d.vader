@@ -4,7 +4,7 @@ Execute (d: dscanner):
   new
   file source/app.d
   let dscanner_maker = NeomakeTestsGetMakerWithOutput(neomake#makers#ft#d#dscanner(),
-      \ '../tests/fixtures/dscanner_report.json')
+      \ '../tests/fixtures/d/dscanner_report.json')
   CallNeomake 1, [dscanner_maker]
   AssertEqualQf getloclist(0), [{
   \ 'lnum':6, 'bufnr': bufnr('%'), 'col': 12,
