@@ -107,13 +107,12 @@ function! s:DScannerProcessJson(context) abort
                     \ 'type': type,
                     \ 'code': i['key'],
                     \ }
-        let end_lnum = i['endLine']
-        if end_lnum is g:neomake#compat#json_null
-            let entry.end_lnum = end_lnum
+        if has_key(i, 'endLine')
+            let entry.end_lnum = i['endLine']
         endif
-        let end_col = i['endColumn']
-        if end_col is g:neomake#compat#json_null
-            let entry.end_col = end_col
+
+        if has_key(i, 'endColumn')
+            let entry.end_col = i['endColumn']
         endif
 
         call add(entries, entry)
@@ -124,8 +123,8 @@ endfunction
 
 function! neomake#makers#ft#d#dscanner() abort
     return {
-          \ 'args': ['--report', 'source/'],
-          \ 'process_json': function('s:DScannerProcessJson'),
-          \ 'supports_stdin': 0,
-          \ }
+                \ 'args': ['--report', 'source/'],
+                \ 'process_json': function('s:DScannerProcessJson'),
+                \ 'supports_stdin': 0,
+                \ }
 endfunction
