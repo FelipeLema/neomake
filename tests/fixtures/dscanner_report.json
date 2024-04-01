@@ -1,0 +1,72 @@
+{
+    "classCount": 0,
+    "functionCount": 1,
+    "interfaceCount": 0,
+    "issues": [
+        {
+            "autofixes": [],
+            "column": 12,
+            "endColumn": 19,
+            "endIndex": 83,
+            "endLine": 6,
+            "fileName": "source\/app.d",
+            "index": 76,
+            "key": "dscanner.suspicious.unmodified",
+            "line": 6,
+            "message": "Variable context is never modified and could have been declared const or immutable.",
+            "name": "could_be_immutable_check",
+            "supplemental": [],
+            "type": "warn"
+        },
+        {
+            "autofixes": [],
+            "column": 12,
+            "endColumn": 19,
+            "endIndex": 83,
+            "endLine": 6,
+            "fileName": "source\/app.d",
+            "index": 76,
+            "key": "dscanner.suspicious.unused_variable",
+            "line": 6,
+            "message": "Variable context is never used.",
+            "name": "unused_variable_check",
+            "supplemental": [],
+            "type": "warn"
+        },
+        {
+            "autofixes": [],
+            "column": 8,
+            "endColumn": 14,
+            "endIndex": 98,
+            "endLine": 7,
+            "fileName": "source\/app.d",
+            "index": 92,
+            "key": "dscanner.suspicious.unmodified",
+            "line": 7,
+            "message": "Variable indent is never modified and could have been declared const or immutable.",
+            "name": "could_be_immutable_check",
+            "supplemental": [],
+            "type": "warn"
+        },
+        {
+            "autofixes": [],
+            "column": 8,
+            "endColumn": 14,
+            "endIndex": 98,
+            "endLine": 7,
+            "fileName": "source\/app.d",
+            "index": 92,
+            "key": "dscanner.suspicious.unused_variable",
+            "line": 7,
+            "message": "Variable indent is never used.",
+            "name": "unused_variable_check",
+            "supplemental": [],
+            "type": "warn"
+        }
+    ],
+    "lineOfCodeCount": 8,
+    "statementCount": 2,
+    "structCount": 0,
+    "templateCount": 0,
+    "undocumentedPublicSymbols": 0
+}

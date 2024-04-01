@@ -1,0 +1,15 @@
+Include: include/setup.vader
+
+Execute (d: dscanner):
+  new
+  file source/app.d
+  let dscanner = NeomakeTestsGetMakerWithOutput(neomake#makers#ft#d#dscanner(),
+      \ '../tests/fixtures/dscanner_report.json')
+  CallNeomake 1,
+  AssertEquealQf getloclist(0), [{
+  \ 'lnum':6, 'bufnr': bufnr('%'), 'col', 12,
+  \ 'type': 'W', 'pattern': '',
+  \ 'text': 'Variable context is never modified and could have been declared const or immutable.',
+  \ }]
+
+  bwipe
