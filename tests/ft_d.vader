@@ -1,20 +1,46 @@
 Include: include/setup.vader
 
 Execute (d: dscanner):
-  new
-  file source/app.d
+  let null = g:neomake#compat#json_null
+  let true = g:neomake#compat#json_true
 
-  let dscanner_maker = NeomakeTestsGetMakerWithOutput(neomake#makers#ft#d#dscanner(),
-      \ 'tests/fixtures/d/dscanner_report.json')
-  CallNeomake 1, [dscanner_maker]
-
-  AssertEqualQf getloclist(0), [{
+  let json_output = '
+      \ {
+      \     "classCount": 0,
+      \     "functionCount": 1,
+      \     "interfaceCount": 0,
+      \     "issues": [
+      \         {
+      \             "column": 13,
+      \             "endColumn": 16,
+      \             "endIndex": 48,
+      \             "endLine": 5,
+      \             "fileName": "source\/app.d",
+      \             "index": 45,
+      \             "key": "dscanner.suspicious.unused_variable",
+      \             "line": 5,
+      \             "message": "Variable abc is never used.",
+      \             "name": "unused_variable_check",
+      \             "supplemental": [],
+      \             "type": "warn"
+      \         }
+      \     ],
+      \     "lineOfCodeCount": 3,
+      \     "statementCount": 1,
+      \     "structCount": 0,
+      \     "templateCount": 0,
+      \     "undocumentedPublicSymbols": 0
+      \ }
+      \ '
+      let context = {'json': neomake#compat#json_decode(json_output)}
+  let errors = neomake#makers#ft#d#DScannerProcessJSON(context)
+  AssertEqual [{
     \ 'lnum': 5,
-    \ 'bufnr': bufnr('%'), 
-    \ 'type': 'W',
-    \ 'col': 13,
-    \ 'text': 'Variable i is never used.',
-    \ 'length': 3, 
-    \ 'filename': "source/app.d"}]
-
-  bwipe
+      \ 'col': 13,
+      \ 'filename': 'source/app.d',
+      \ 'code': 'dscanner.suspicious.unused_variable',
+      \ 'length': 3,
+      \ 'type': 'W',
+      \ 'maker_name': 'dscanner',
+      \ 'text': 'Variable abc is never used.',
+      \ }], errors

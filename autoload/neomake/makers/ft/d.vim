@@ -91,24 +91,23 @@ function! neomake#makers#ft#d#gdmd() abort
         \ }
 endfunction
 
-function! neomake#makers#ft#d#ProcessDScanner(context) abort
+function! neomake#makers#ft#d#DScannerProcessJSON(context) abort
     let entries = []
     for i in get(a:context.json, 'issues', [])
+        let type='E'
         if i.type ==# 'warn'
             let type = 'W'
-        else
-            let type='E'
         endif
         let length = i.endIndex - i.index
         let entry = {
-                    \ 'maker_name': 'dscanner',
-                    \ 'filename': i['fileName'],
-                    \ 'lnum': i.line,
+                    \ 'code': i.key,
                     \ 'col': i.column,
+                    \ 'filename': i['fileName'],
+                    \ 'length': length,
+                    \ 'lnum': i.line,
+                    \ 'maker_name': 'dscanner',
                     \ 'text': i.message,
                     \ 'type': type,
-                    \ 'code': i.key,
-                    \ 'length': length,
                     \ }
         call add(entries, entry)
     endfor
@@ -119,7 +118,7 @@ endfunction
 function! neomake#makers#ft#d#dscanner() abort
     return {
                 \ 'args': ['--report', 'source/'],
-                \ 'process_json': function('neomake#makers#ft#d#ProcessDScanner'),
+                \ 'process_json': function('neomake#makers#ft#d#DScannerProcessJSON'),
                 \ 'supports_stdin': 0,
                 \ }
 endfunction
