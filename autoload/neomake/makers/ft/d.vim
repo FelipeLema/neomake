@@ -102,6 +102,8 @@ function! neomake#makers#ft#d#DScannerProcessJSON(context) abort
         let entry = {
                     \ 'code': i.key,
                     \ 'col': i.column,
+                    \ 'end_col': i.endColumn,
+                    \ 'end_lnum': i.endLine,
                     \ 'filename': i['fileName'],
                     \ 'length': length,
                     \ 'lnum': i.line,

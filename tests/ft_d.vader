@@ -37,6 +37,8 @@ Execute (d: dscanner):
   AssertEqual [{
     \ 'lnum': 5,
       \ 'col': 13,
+      \ 'end_col': 16,
+      \ 'end_lnum': 5,
       \ 'filename': 'source/app.d',
       \ 'code': 'dscanner.suspicious.unused_variable',
       \ 'length': 3,
